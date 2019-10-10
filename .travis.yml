@@ -1,32 +1,31 @@
 dist: xenial
-
 language: java
-script: 
-  - gradle clean build
-  - tar -zcf hello_world_test_reports.tar.gz build/reports
-  - tar -zcf hello_world_executable_distributions.tar.gz build/distributions
-  - ls -R
-
+script:
+- gradle clean build
+- tar -zcf hello_world_test_reports.tar.gz build/reports
+- tar -zcf hello_world_executable_distributions.tar.gz build/distributions
+- ls -R
 before_deploy:
-  - git config --global user.email "builds@travis-ci.com"
-  - git config --global user.name "Travis CI"
-  - export GIT_TAG=$TRAVIS_BRANCH.$TRAVIS_BUILD_NUMBER
-  - echo "Just generated GIT_TAG"
-  - echo $GIT_TAG
-  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q https://$GITPERM@github.com/rag189/Java_Gradle_Hello_World  --tags
-  - ls -R
-  
+- git config --global user.email "builds@travis-ci.com"
+- git config --global user.name "Travis CI"
+- export GIT_TAG=$TRAVIS_BRANCH.$TRAVIS_BUILD_NUMBER
+- echo "Just generated GIT_TAG"
+- echo $GIT_TAG
+- git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+- git push -q https://$GITPERM@github.com/rag189/Java_Gradle_Hello_World  --tags
+- ls -R
 deploy:
   provider: releases
   file_glob: true
   api_key:
-    secure: $GITPERM
-  file: 
-    - README.md
-    - hello_world_test_reports.tar.gz 
-    - hello_world_executable_distributions.tar.gz 
+    secure: "$GITPERM"
+  file:
+  - README.md
+  - hello_world_test_reports.tar.gz
+  - hello_world_executable_distributions.tar.gz
   skip_cleanup: true
   on:
     tags: false
-  
+env:
+  global:
+    secure: eo65iDIl3m1DjiVtrJAsviLsb2wM/99Cbvu3jPGqMAXt1ZQ8ETa+WOTwHKHoW2xS2TR7pPGpC+rbYwmhHIiMgt51Tzisl01vLbl1fr/B4MGHo9bRnY+y7iJ15uF606D8UG7hPwf31PwWabU7f9r5KJLiz+le10E4BglgYPb+zGwaefnDCjYexLFMQduUmLcmpB9RazOUAt6zobn05FOe+L85jXiIVZkzFUnRR2U769NXnz9aCrFwFqaIkFQeKIE3bAz0fJjThCkgrwEIOFqs4oE69WhmPxC066RKhjQAoU9Mve814UyK9ZRplEmuxC+jlR/domb5bPL1DwnJUhNX0flsxKuYmp9GqXulJOsC0EdQmaW9S7g5xrJk/KvwvEZcH1/ot2FvaxUMZaUAIBLTyIMrc/vWAZYFIZ4yr9ozd1IOXoDshI5Zk5CHsyH2qYczvUBDbMuPiGHIObztlBRG3MokPdeQWbO5nhORmM1OLzCzRKBt7NM7QtC9USlOLG6Qj1TjbxMAbbPZXvMnnhwSa+3bp1HWJD3I+kNFtoR8eEcizFydDZxSsVzb62eUkvep5SVRrWm7v9gqur4JHlFoLlMJzacmrAitIITMYt+55JkzcKFF5PuumiSf66cg7ySURSZTom6I4RlZHE27KE3/QWuVhnOBgJgw5rmS7Coehz8=
