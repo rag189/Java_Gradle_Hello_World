@@ -21,7 +21,7 @@ deploy:
   provider: releases
   file_glob: true
   api_key:
-    secure: $GITPERM
+    secure: $GITPERM 0e678d33e9cb7df24dfedb137bb43c471224deee
   file: 
     - README.md
     - hello_world_test_reports.tar.gz 
